@@ -1,0 +1,42 @@
+{
+  "flapalerted.esd.cc": { "url": "https://flapalerted.esd.cc", "mode": "poll" },
+  "dn42.leziblog.com": {
+    "url": "https://dn42.leziblog.com/flapAlerted",
+    "mode": "poll"
+  },
+  "flaps.ox5.cc": { "url": "https://flaps.ox5.cc", "mode": "poll" },
+  "flaps-dn42.wwrr.ru": { "url": "https://flaps-dn42.wwrr.ru", "mode": "poll" },
+  "flap42.strexp.net": { "url": "https://flap42.strexp.net", "mode": "poll" },
+  "flap.choco.dn42": { "url": "https://flap.choco.dn42", "mode": "poll" },
+  "dn42.moraxyc.com": {
+    "url": "https://dn42.moraxyc.com/flap",
+    "mode": "poll"
+  },
+  "flapalerted.lantian.pub": {
+    "url": "https://flapalerted.lantian.pub",
+    "mode": "poll"
+  },
+  "flap-dn42.potat0.cc": {
+    "url": "https://flap-dn42.potat0.cc",
+    "mode": "poll"
+  },
+  "flapalerted.233355607.xyz": {
+    "url": "https://flapalerted.233355607.xyz",
+    "mode": "poll"
+  },
+  "flaps.mhr.hk": { "url": "https://flaps.mhr.hk", "mode": "poll" },
+  "flaps.pebkac.dn42": { "url": "https://flaps.pebkac.dn42", "mode": "poll" },
+  "cowgl.xyz": { "url": "https://cowgl.xyz/collectorflap", "mode": "poll" },
+  "flap42.moe233.net": { "url": "https://flap42.moe233.net", "mode": "poll" },
+  "flaps.iedon.net": { "url": "https://flaps.iedon.net", "mode": "poll" },
+  "flap-dn42.yuyuko.com": {
+    "url": "https://flap-dn42.yuyuko.com",
+    "mode": "poll"
+  },
+  "flap-dn42.baka.pub": { "url": "https://flap-dn42.baka.pub", "mode": "poll" },
+  "dn42-fa.badaimweeb.me": {
+    "url": "https://dn42-fa.badaimweeb.me",
+    "mode": "poll"
+  },
+  "flap.dn42.6700.cc": { "url": "https://flap.dn42.6700.cc", "mode": "poll" }
+}
