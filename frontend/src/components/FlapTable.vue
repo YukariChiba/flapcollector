@@ -32,21 +32,32 @@
         <!-- Voters Column -->
         <template #cell(voters)="{ item }">
           <div class="text-wrap py-2">
-            <span
-              v-for="v in item.voters"
-              :key="v.host"
-              class="badge voter-badge me-1 mb-1 text-body-secondary"
-              v-b-tooltip.hover
-              :title="getTooltip(v)"
-              @click="openServer(v.host, item.prefix)"
-            >
-              {{ v.host }}
-              <span
-                class="opacity-50 border-start ps-1 ms-1"
-                :class="getChipClass(v.rate)"
-                >{{ formatRate(v.rate) }}</span
-              >
-            </span>
+            <BTooltip v-for="v in item.voters" :key="v.host">
+              <template #target>
+                <span
+                  class="badge voter-badge me-1 mb-1 text-body-secondary"
+                  @click="openServer(v.host, item.prefix)"
+                >
+                  {{ v.host }}
+                  <span class="opacity-50 border-start ps-1 ms-1" :class="getChipClass(v.rate)">{{
+                    formatRate(v.rate)
+                  }}</span>
+                </span>
+              </template>
+              <div style="text-align: left">
+                <BBadge>Host:</BBadge>
+                {{ v.host }}
+                <br />
+                <BBadge>Total:</BBadge>
+                {{ v.totalCount }}
+                <br />
+                <BBadge>Duration:</BBadge>
+                {{ props.formatDuration(v.duration) }}
+                <br />
+                <BBadge>Rate:</BBadge>
+                {{ formatRate(v.rate) }}
+              </div>
+            </BTooltip>
           </div>
         </template>
 
@@ -59,8 +70,8 @@
 </template>
 
 <script setup lang="ts">
-import { BCard, BTable, BButton, vBTooltip } from 'bootstrap-vue-next'
-import type { ProcessedRow, ProcessedVoter, ServerMeta } from '../types'
+import { BCard, BTable, BButton, BTooltip, BBadge } from 'bootstrap-vue-next'
+import type { ProcessedRow, ServerMeta } from '../types'
 
 const props = defineProps<{
   data: ProcessedRow[]
@@ -99,10 +110,6 @@ function getBadgeClass(count: number) {
 
 function formatRate(rate: number) {
   return rate < 0.01 ? '<0.01/s' : `${rate.toFixed(2)}/s`
-}
-
-function getTooltip(v: ProcessedVoter) {
-  return `Host: ${v.host}\nTotal: ${v.totalCount}\nDuration: ${props.formatDuration(v.duration)}\nRate: ${formatRate(v.rate)}`
 }
 
 function openServer(host: string, prefix: string) {
