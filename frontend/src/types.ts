@@ -31,7 +31,7 @@ export interface ServerStatus {
 }
 
 export interface ServerMeta {
-  [host: string]: { url: string }
+  [host: string]: { url: string; mode: string }
 }
 
 export interface FilterState {

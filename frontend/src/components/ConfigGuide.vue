@@ -23,12 +23,22 @@
           </div>
         </BTab>
 
-        <!-- Webhook -->
-        <BTab title="Webhook">
-          <div class="mb-2 text-muted small">Contact us to configure webhooks.</div>
-          <div class="code-box">
-            <button class="copy-btn" @click="copy(webhookCode)">Copy</button>
-            <pre class="m-0">{{ webhookCode }}</pre>
+        <!-- Join -->
+        <BTab title="Provide Data">
+          <div class="mb-4">
+            <div class="text-h5 mb-2">Method 1: Polling</div>
+            <div class="text-muted mb-1 small">Open up API access and tell us your FlapAlerted URL.</div>
+            <div class="text-muted mb-1 small">
+              Check if <code>your-endpoint.domain/flaps/active/compact</code> is available.
+            </div>
+          </div>
+          <div>
+            <div class="text-h5 mb-2">Method 2: Webhook</div>
+            <div class="mb-1 text-muted small">Contact us to get your Instance ID, then configure your FlapAlerted to setup webhooks.</div>
+            <div class="code-box">
+              <button class="copy-btn" @click="copy(webhookCode)">Copy</button>
+              <pre class="m-0">{{ webhookCode }}</pre>
+            </div>
           </div>
         </BTab>
       </BTabs>

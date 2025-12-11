@@ -38,10 +38,16 @@
           <span
             :class="['text-truncate', status[host] ? 'text-light' : 'text-muted']"
             style="max-width: 85%"
-            >{{ host }}</span
           >
-          <IBiCheck2 class="text-success" v-if="status[host]" />
-          <IBiExclamationTriangle class="text-warning" v-else />
+            {{ host }}
+          </span>
+          <span>
+            <span v-if="props.meta[host]" class="badge rounded-pill bg-secondary me-2">{{
+              props.meta[host]?.mode
+            }}</span>
+            <IBiCheck2 class="text-success" v-if="status[host]" />
+            <IBiExclamationTriangle class="text-warning" v-else />
+          </span>
         </BListGroupItem>
       </BListGroup>
     </BCard>
@@ -51,9 +57,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { BCard, BListGroup, BListGroupItem, BButton, BBadge } from 'bootstrap-vue-next'
-import type { ServerStatus } from '../types'
+import type { ServerStatus, ServerMeta } from '../types'
 
-const props = defineProps<{ status: ServerStatus }>()
+const props = defineProps<{ status: ServerStatus; meta: ServerMeta }>()
 
 const files = ['all.json', 'min_2.json', 'min_3.json', 'min_5.json', 'min_7.json', 'min_11.json']
 const sortedHosts = computed(() => Object.keys(props.status).sort())

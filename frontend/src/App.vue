@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="col-lg-4">
-          <ServerList :status="serverStatus" />
+          <ServerList :status="serverStatus" :meta="serverMeta" />
         </div>
       </div>
 
