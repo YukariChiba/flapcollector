@@ -6,66 +6,62 @@
         <IBiArrowClockwise />
       </BButton>
     </div>
-    <div class="table-container" style="max-height: 70vh; overflow-y: auto">
-      <BTable
-        sticky-header="100vh"
-        :items="data"
-        :fields="fields"
-        dark
-        hover
-        class="mb-0 align-middle"
-      >
-        <!-- Votes Column -->
-        <template #cell(count)="{ item }">
-          <div class="text-center">
-            <span :class="['count-badge fw-bold', getBadgeClass(item.count)]">{{
-              item.count
-            }}</span>
-          </div>
-        </template>
+    <BTable
+      sticky-header="100vh"
+      :items="data"
+      :fields="fields"
+      dark
+      hover
+      class="mb-0 align-middle"
+    >
+      <!-- Votes Column -->
+      <template #cell(count)="{ item }">
+        <div class="text-center">
+          <span :class="['count-badge fw-bold', getBadgeClass(item.count)]">{{ item.count }}</span>
+        </div>
+      </template>
 
-        <!-- Prefix Column -->
-        <template #cell(prefix)="{ value }">
-          <span class="ps-2 font-monospace text-light fw-bold">{{ value }}</span>
-        </template>
+      <!-- Prefix Column -->
+      <template #cell(prefix)="{ value }">
+        <span class="ps-2 font-monospace text-light fw-bold">{{ value }}</span>
+      </template>
 
-        <!-- Voters Column -->
-        <template #cell(voters)="{ item }">
-          <div class="text-wrap py-2">
-            <BTooltip v-for="v in item.voters" :key="v.host">
-              <template #target>
-                <span
-                  class="badge voter-badge me-1 mb-1 text-body-secondary"
-                  @click="openServer(v.host, item.prefix)"
-                >
-                  {{ v.host }}
-                  <span class="opacity-50 border-start ps-1 ms-1" :class="getChipClass(v.rate)">{{
-                    formatRate(v.rate)
-                  }}</span>
-                </span>
-              </template>
-              <div style="text-align: left">
-                <BBadge>Host:</BBadge>
+      <!-- Voters Column -->
+      <template #cell(voters)="{ item }">
+        <div class="text-wrap py-2">
+          <BTooltip v-for="v in item.voters" :key="v.host">
+            <template #target>
+              <span
+                class="badge voter-badge me-1 mb-1 text-body-secondary"
+                @click="openServer(v.host, item.prefix)"
+              >
                 {{ v.host }}
-                <br />
-                <BBadge>Total:</BBadge>
-                {{ v.totalCount }}
-                <br />
-                <BBadge>Duration:</BBadge>
-                {{ props.formatDuration(v.duration) }}
-                <br />
-                <BBadge>Rate:</BBadge>
-                {{ formatRate(v.rate) }}
-              </div>
-            </BTooltip>
-          </div>
-        </template>
+                <span class="opacity-50 border-start ps-1 ms-1" :class="getChipClass(v.rate)">{{
+                  formatRate(v.rate)
+                }}</span>
+              </span>
+            </template>
+            <div style="text-align: left">
+              <BBadge>Host:</BBadge>
+              {{ v.host }}
+              <br />
+              <BBadge>Total:</BBadge>
+              {{ v.totalCount }}
+              <br />
+              <BBadge>Duration:</BBadge>
+              {{ props.formatDuration(v.duration) }}
+              <br />
+              <BBadge>Rate:</BBadge>
+              {{ formatRate(v.rate) }}
+            </div>
+          </BTooltip>
+        </div>
+      </template>
 
-        <template #empty>
-          <div class="text-center py-5 text-muted">No flapping routes found matching criteria.</div>
-        </template>
-      </BTable>
-    </div>
+      <template #empty>
+        <div class="text-center py-5 text-muted">No flapping routes found matching criteria.</div>
+      </template>
+    </BTable>
   </BCard>
 </template>
 

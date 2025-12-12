@@ -34,7 +34,7 @@
           </div>
           <div>
             <div class="text-h5 mb-2">Method 2: TCP</div>
-            <div class="mb-1 text-muted small">Pass the following argument to your FlapAlerted.</div>
+            <div class="mb-1 text-muted small">Contact us to get your instance approved. Then pass the following argument to your FlapAlerted.</div>
             <div class="code-box">
               <button class="copy-btn" @click="copy(collectorCode)">Copy</button>
               <pre class="m-0">{{ collectorCode }}</pre>
