@@ -1,13 +1,12 @@
 import time
 import json
 import threading
-import os
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from collections import defaultdict
-from typing import Dict
+from typing import Any, Dict
 
-from app.config import CACHE_DURATION, VALIDITY_WINDOW, DATA_DIR, STATUS_FILE
+from app.config import CACHE_DURATION, VALIDITY_WINDOW
 from app.models import ServerConfig
 from app.state import update_server_data, get_snapshot, remove_server_data
 from app.utils import logger
@@ -59,7 +58,6 @@ def clean_expired_data(config: Dict[str, ServerConfig]) -> Dict[str, bool]:
     now = int(time.time())
     status_map = {}
     configured_names = set(config.keys())
-    
     snapshot = get_snapshot()
     
     to_remove = []
@@ -67,33 +65,30 @@ def clean_expired_data(config: Dict[str, ServerConfig]) -> Dict[str, bool]:
         if name not in configured_names:
             to_remove.append(name)
             continue
-        
         ts = entry['timestamp']
         if (now - ts) > (CACHE_DURATION + 10):
             status_map[name] = False
-            to_remove.append(name)
         else:
             status_map[name] = True
             
     for name in to_remove:
         remove_server_data(name)
-
+        
     for name in configured_names:
         if name not in status_map:
             status_map[name] = False
             
     return status_map
 
-def generate_files(status_map: Dict[str, bool]):
+def get_status_json(status_map: Dict[str, bool]) -> Dict[str, Any]:
+    return {
+        "generated": int(time.time()),
+        "servers": status_map
+    }
+
+def get_aggregated_roas(status_map: Dict[str, bool], min_count: int) -> Dict[str, Any]:
     now = int(time.time())
     
-    with open(STATUS_FILE, 'w') as f:
-        json.dump({"generated": now, "servers": status_map}, f)
-
-    active_count = sum(1 for v in status_map.values() if v)
-
-    logger.info(f"Aggregating data from {active_count} active servers...")
-
     grouped = defaultdict(list)
     snapshot = get_snapshot()
 
@@ -106,37 +101,25 @@ def generate_files(status_map: Dict[str, bool]):
                 "info": row['info']
             })
 
-    aggregated_rows = []
+    roas = []
     for prefix, occurrences in grouped.items():
+        if len(occurrences) < min_count:
+            continue
+
         metadata = {item['server']: item['info'] for item in occurrences}
         max_len = 128 if ':' in prefix else 32
-        aggregated_rows.append({
+        
+        roas.append({
             "prefix": prefix,
             "asn": "0",
             "maxLength": max_len,
-            "metadata": metadata,
-            "count": len(occurrences)
+            "metadata": metadata
         })
 
-    limits = [1, 2, 3, 5, 7, 11]
-    base_obj = {
+    return {
         "metadata": {
             "generated": now,
             "valid": now + VALIDITY_WINDOW
-        }
+        },
+        "roas": roas
     }
-
-    for limit in limits:
-        roas = [
-            {k: v for k, v in row.items() if k != 'count'}
-            for row in aggregated_rows if row['count'] >= limit
-        ]
-        
-        output_data = base_obj.copy()
-        output_data["roas"] = roas
-        
-        filename = "all.json" if limit == 1 else f"min_{limit}.json"
-        with open(os.path.join(DATA_DIR, filename), 'w') as f:
-            json.dump(output_data, f)
-            
-    logger.info("Aggregation complete.")

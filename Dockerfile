@@ -9,7 +9,7 @@ RUN npm i && npm run build
 
 FROM alpine:latest
 
-RUN apk add ca-certificates python3 supervisor
+RUN apk add ca-certificates python3 supervisor py3-flask
 
 WORKDIR /app
 
@@ -18,8 +18,6 @@ RUN update-ca-certificates
 
 COPY backend .
 COPY --from=frontendbuilder /app/dist ./public
-
-COPY docker/servers.example.json data/servers.json
 
 COPY docker/supervisord.conf .
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/app/supervisord.conf"]

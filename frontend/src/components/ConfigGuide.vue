@@ -33,11 +33,11 @@
             </div>
           </div>
           <div>
-            <div class="text-h5 mb-2">Method 2: Webhook</div>
-            <div class="mb-1 text-muted small">Contact us to get your Instance ID, then configure your FlapAlerted to setup webhooks.</div>
+            <div class="text-h5 mb-2">Method 2: TCP</div>
+            <div class="mb-1 text-muted small">Pass the following argument to your FlapAlerted.</div>
             <div class="code-box">
-              <button class="copy-btn" @click="copy(webhookCode)">Copy</button>
-              <pre class="m-0">{{ webhookCode }}</pre>
+              <button class="copy-btn" @click="copy(collectorCode)">Copy</button>
+              <pre class="m-0">{{ collectorCode }}</pre>
             </div>
           </div>
         </BTab>
@@ -65,12 +65,10 @@ const birdCode = `protocol rpki roa_dn42_flap {
     expire keep 600;
 }`
 
-const webhookCode = `# FlapAlerted > 4.1.5 required
--webhookInstanceName "Instance ID"
--webhookUrlStart "https://flap-data.nia.dn42/start"
-# for IANA: -webhookUrlStart "https://flap42-data.strexp.net/start"
--webhookUrlEnd "https://flap-data.nia.dn42/end"
-# for IANA: -webhookUrlStart "https://flap42-data.strexp.net/end"`
+const collectorCode = `# FlapAlerted > 4.1.5 required
+-collectorInstanceName "Your Instance ID"
+-collectorEndpoint "flap-data.nia.dn42:9179"
+# for IANA: -webhookUrlStart "flap42-data.strexp.net:9179"`
 
 const copy = (txt: string) => navigator.clipboard.writeText(txt)
 </script>
