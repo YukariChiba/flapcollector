@@ -1,7 +1,7 @@
 <template>
   <div class="row g-3">
     <!-- API Query Params -->
-    <div class="col-12">
+    <div class="col-7">
       <BCard class="h-100 mb-0" body-class="p-3">
         <span
           class="d-block small text-uppercase text-muted mb-2 ls-1"
@@ -10,7 +10,7 @@
           Query Parameters
         </span>
         <div class="d-flex gap-2">
-          <BInputGroup prepend="Min Votes" size="sm" class="w-auto">
+          <BInputGroup prepend="Votes &geq;" size="sm" class="w-auto">
             <BFormInput
               type="number"
               min="1"
@@ -18,7 +18,7 @@
               @update:model-value="(v) => updateParam('votes', Number(v))"
             />
           </BInputGroup>
-          <BInputGroup prepend="Current Rate" size="sm" class="w-auto">
+          <BInputGroup prepend="Current Rate &geq;" size="sm" class="w-auto">
             <BFormInput
               type="number"
               min="0"
@@ -26,7 +26,19 @@
               @update:model-value="(v) => updateParam('current_rate', Number(v))"
             />
           </BInputGroup>
-          <BInputGroup prepend="Average Rate" size="sm" class="w-auto">
+        </div>
+      </BCard>
+    </div>
+    <div class="col-5">
+      <BCard class="h-100 mb-0" body-class="p-3">
+        <span
+          class="d-block small text-uppercase text-muted mb-2 ls-1"
+          style="letter-spacing: 1px; font-size: 0.75rem"
+        >
+          Filter Parameters
+        </span>
+        <div class="d-flex gap-2">
+          <BInputGroup prepend="Average Rate &geq;" size="sm" class="w-auto">
             <BFormInput
               type="number"
               min="0"

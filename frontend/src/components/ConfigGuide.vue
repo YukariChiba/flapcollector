@@ -10,8 +10,7 @@
             <pre class="m-0">{{ dockerCode }}</pre>
           </div>
           <div class="mt-2 text-muted small">
-            Replace <code>{name}</code> with:
-            <span class="font-monospace text-info">all, min_2, min_3, min_5</span>.
+            Replace <code>{min_current_rate}</code> and <code>{min_vote}</code> with the threshold you want.
           </div>
         </BTab>
 
@@ -27,14 +26,19 @@
         <BTab title="Provide Data">
           <div class="mb-4">
             <div class="text-h5 mb-2">Method 1: Polling</div>
-            <div class="text-muted mb-1 small">Open up API access and tell us your FlapAlerted URL.</div>
+            <div class="text-muted mb-1 small">
+              Open up API access and tell us your FlapAlerted URL.
+            </div>
             <div class="text-muted mb-1 small">
               Check if <code>your-endpoint.domain/flaps/active/compact</code> is available.
             </div>
           </div>
           <div>
             <div class="text-h5 mb-2">Method 2: TCP</div>
-            <div class="mb-1 text-muted small">Contact us to get your instance approved. Then pass the following argument to your FlapAlerted.</div>
+            <div class="mb-1 text-muted small">
+              Contact us to get your instance approved. Then pass the following argument to your
+              FlapAlerted.
+            </div>
             <div class="code-box">
               <button class="copy-btn" @click="copy(collectorCode)">Copy</button>
               <pre class="m-0">{{ collectorCode }}</pre>
@@ -54,7 +58,7 @@ const dockerCode = `services:
     image: rpki/stayrtr:latest
     ports: ["8082:8282"]
     command: >
-      -cache https://flap-data.nia.dn42/roa.json?rate=<min_rate>&vote=<min_vote>`
+      -cache https://flap-data.nia.dn42/roa.json?rate=<min_current_rate>&vote=<min_vote>`
 
 const birdCode = `protocol rpki roa_dn42_flap {
     roa4 { table roa_dn42_flap_4; };

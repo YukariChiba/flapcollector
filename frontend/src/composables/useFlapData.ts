@@ -9,7 +9,7 @@ export function useFlapData() {
   const generatedTime = ref(0)
 
   const filters = ref<FilterState>({
-    votes: 9,
+    votes: 7,
     average_rate: 0,
     current_rate: 0,
     family: 'all',
