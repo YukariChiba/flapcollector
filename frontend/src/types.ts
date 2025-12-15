@@ -1,6 +1,7 @@
 export interface RawRouteStats {
   FirstSeen: number
   TotalCount: number
+  RateSec: number
 }
 
 export interface RawRoa {
@@ -17,7 +18,8 @@ export interface ProcessedVoter {
   host: string
   totalCount: number
   duration: number
-  rate: number
+  current_rate: number
+  average_rate: number
 }
 
 export interface ProcessedRow {
@@ -36,5 +38,7 @@ export interface ServerMeta {
 
 export interface FilterState {
   votes: number
+  average_rate: number
+  current_rate: number
   family: 'all' | 'v4' | 'v6'
 }

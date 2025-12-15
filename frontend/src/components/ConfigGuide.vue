@@ -54,12 +54,12 @@ const dockerCode = `services:
     image: rpki/stayrtr:latest
     ports: ["8082:8282"]
     command: >
-      -cache https://flap-data.nia.dn42/{name}.json`
+      -cache https://flap-data.nia.dn42/roa.json?rate=<min_rate>&vote=<min_vote>`
 
 const birdCode = `protocol rpki roa_dn42_flap {
     roa4 { table roa_dn42_flap_4; };
     roa6 { table roa_dn42_flap_6; };
-    remote "rpki.nia.dn42" port 8083;
+    remote "rpki.nia.dn42" port 8083; // vote=7 rate=0
     retry keep 120;
     refresh keep 300;
     expire keep 600;

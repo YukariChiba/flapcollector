@@ -2,19 +2,18 @@
   <div class="d-flex flex-column gap-3">
     <!-- JSON Links -->
     <BCard no-body class="mb-0">
-      <div class="card-header"><IBiFiletypeJson class="me-2" />Raw JSON Files</div>
-      <BListGroup flush>
-        <BListGroupItem
-          v-for="f in files"
-          :key="f"
-          class="bg-transparent border-secondary border-opacity-25 d-flex justify-content-between align-items-center py-2"
-        >
-          <span class="font-monospace text-muted small">/{{ f }}</span>
-          <BButton variant="link" size="sm" class="text-decoration-none p-0" @click="copyUrl(f)">
-            <IBiCopy />
-          </BButton>
-        </BListGroupItem>
-      </BListGroup>
+      <div class="card-header"><IBiFiletypeJson class="me-2" />API Usage</div>
+      <div class="card-body p-3">
+        <p class="small text-muted mb-2">
+          Use the dynamic API to fetch ROA data with custom thresholds.
+        </p>
+        <div class="code-box p-2 mb-2" style="font-size: 0.75rem">
+          <pre class="m-0 text-wrap" style="word-break: break-all">{{ apiUrl() }}</pre>
+        </div>
+        <div class="d-flex gap-2 justify-content-between small text-muted">
+          <span>Default: <code>vote=1, rate=0</code></span>
+        </div>
+      </div>
     </BCard>
 
     <!-- Server Status -->
@@ -56,13 +55,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { BCard, BListGroup, BListGroupItem, BButton, BBadge } from 'bootstrap-vue-next'
+import { BCard, BListGroup, BListGroupItem, BBadge } from 'bootstrap-vue-next'
 import type { ServerStatus, ServerMeta } from '../types'
 
 const props = defineProps<{ status: ServerStatus; meta: ServerMeta }>()
 
-const files = ['all.json', 'min_2.json', 'min_3.json', 'min_5.json', 'min_7.json', 'min_11.json']
 const sortedHosts = computed(() => Object.keys(props.status).sort())
 
-const copyUrl = (f: string) => navigator.clipboard.writeText(`${window.location.origin}/${f}`)
+const apiUrl = () => `${window.location.origin}/roa.json?vote=<min_vote>&rate=<min_rate>`
 </script>

@@ -9,7 +9,9 @@ export function useFlapData() {
   const generatedTime = ref(0)
 
   const filters = ref<FilterState>({
-    votes: 3,
+    votes: 9,
+    average_rate: 0,
+    current_rate: 0,
     family: 'all',
   })
 
@@ -44,7 +46,13 @@ export function useFlapData() {
   const loadData = async () => {
     loading.value = true
     try {
-      const res = await fetch(`/all.json?t=${Date.now()}`)
+      const params = new URLSearchParams({
+        vote: String(filters.value.votes),
+        rate: String(filters.value.current_rate),
+        t: String(Date.now()),
+      })
+
+      const res = await fetch(`/roa.json?${params.toString()}`)
       if (!res.ok) throw new Error('Failed to load')
       const json: RawData = await res.json()
 
@@ -59,7 +67,8 @@ export function useFlapData() {
               host,
               totalCount: stats.TotalCount || 0,
               duration,
-              rate: (stats.TotalCount || 0) / duration,
+              average_rate: (stats.TotalCount || 0) / duration,
+              current_rate: stats.RateSec || 0,
             }
           })
 
@@ -74,6 +83,7 @@ export function useFlapData() {
         .sort((a, b) => b.count - a.count || a.prefix.localeCompare(b.prefix))
     } catch (e) {
       console.error(e)
+      rawData.value = []
     } finally {
       loading.value = false
     }
@@ -81,7 +91,14 @@ export function useFlapData() {
 
   const filteredData = computed(() => {
     return rawData.value.filter((item) => {
-      if (item.count < filters.value.votes) return false
+      let valid = false
+      for (const [, voter] of item.voters.entries()) {
+        if (voter.average_rate >= filters.value.average_rate) {
+          valid = true
+          continue
+        }
+      }
+      if (!valid) return false
       const isV6 = item.prefix.includes(':')
       if (filters.value.family === 'v4' && isV6) return false
       if (filters.value.family === 'v6' && !isV6) return false

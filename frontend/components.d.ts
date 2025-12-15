@@ -17,7 +17,6 @@ declare module 'vue' {
     IBiArrowClockwise: typeof import('~icons/bi/arrow-clockwise')['default']
     IBiCheck2: typeof import('~icons/bi/check2')['default']
     IBiClockHistory: typeof import('~icons/bi/clock-history')['default']
-    IBiCopy: typeof import('~icons/bi/copy')['default']
     IBiExclamationTriangle: typeof import('~icons/bi/exclamation-triangle')['default']
     IBiFiletypeJson: typeof import('~icons/bi/filetype-json')['default']
     IBiHddRack: typeof import('~icons/bi/hdd-rack')['default']

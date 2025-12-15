@@ -1,6 +1,6 @@
 import threading
 
-from flask import Flask, abort, jsonify
+from flask import Flask, abort, jsonify, request
 
 from app.config import STATIC_DIR
 from app.logic import clean_expired_data, get_aggregated_roas, get_status_json
@@ -32,18 +32,32 @@ def status():
     return jsonify(get_status_json(get_context()))
 
 
+# legacy
 @app.route("/all")
 @app.route("/all.json")
 def all_roas():
     return jsonify(get_aggregated_roas(get_context(), min_count=1))
 
 
+# legacy
 @app.route("/min_<int:count>")
 @app.route("/min_<int:count>.json")
 def min_roas(count):
     if count < 1:
         abort(400)
     return jsonify(get_aggregated_roas(get_context(), min_count=count))
+
+
+@app.route("/roa")
+@app.route("/roa.json")
+def filter_roas():
+    rate = request.args.get("rate", default=0, type=int)
+    vote = request.args.get("vote", default=1, type=int)
+
+    if vote < 1:
+        vote = 1
+
+    return jsonify(get_aggregated_roas(get_context(), min_count=vote, min_rate=rate))
 
 
 def start_http_server(ip, port):

@@ -17,10 +17,10 @@
       <!-- Controls & Status -->
       <div class="row g-3 mb-4">
         <div class="col-lg-7">
-          <FilterControls v-model="filters" />
+          <FilterControls v-model="filters" @update:modelValue="refresh" />
         </div>
         <div class="col-lg-5">
-          <StatusCard :count="filteredData.length" :min-votes="filters.votes" />
+          <StatusCard :loading="loading" :count="filteredData.length" :min-votes="filters.votes" />
         </div>
       </div>
 
@@ -29,6 +29,8 @@
         :data="filteredData"
         :server-meta="serverMeta"
         :format-duration="formatDuration"
+        :filter-family="filters.family"
+        @update:filter-family="(v) => (filters.family = v)"
         @refresh="refresh"
       />
 
